@@ -192,7 +192,7 @@ def extract_artifact!
         retries 2
       end
       execute "extract_artifact! chown" do
-        command "chown -R #{new_resource.owner}:#{new_resource.group} #{release_path}"
+        command "chown -R #{new_resource.owner} #{release_path}"
         only_if { Chef::Artifact.windows? && new_resource.owner != ENV['USERNAME'] }
       end
     when /zip|war|jar/
