@@ -70,7 +70,7 @@ action :create do
       remote_file_resource.run_action(:create)
     end
     raise Chef::Artifact::ArtifactChecksumError unless checksum_valid?
-    write_checksum if Chef::Artifact.from_nexus?(file_location) || Chef::Artifact.from_s3?(file_location)
+    write_checksum
   rescue Chef::Artifact::ArtifactChecksumError => e
     if retries > 0
       retries -= 1
