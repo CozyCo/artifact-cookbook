@@ -69,7 +69,7 @@ action :create do
     else
       remote_file_resource.run_action(:create)
     end
-    raise Chef::Artifact::ArtifactChecksumError unless checksum_valid?
+    Chef::Log.warn "[artifact_file] Downloaded file checksum does not match the current checksum. Artifact has changed." unless checksum_valid?
     write_checksum
   rescue Chef::Artifact::ArtifactChecksumError => e
     if retries > 0
