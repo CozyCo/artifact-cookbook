@@ -89,30 +89,53 @@ class Chef
       #
       def retrieve_from_s3(node, source_file, destination_file)
         begin
-          require 'aws-sdk'
-          config = data_bag_config_for(node.chef_environment, DATA_BAG_AWS)
-          s3_endpoint, bucket_name, object_name = parse_s3_url(source_file)
-
-          if config.empty?
-            AWS.config(:s3 => { :endpoint => s3_endpoint })
-          else
-            AWS.config(:access_key_id => config['access_key_id'],
-                       :secret_access_key => config['secret_access_key'],
-                       :s3 => { :endpoint => s3_endpoint })
-          end
-
+          configure_aws(node, source_file)
+          _, bucket_name, object_name = parse_s3_url(source_file)
           object = get_s3_object(bucket_name, object_name)
 
-          Chef::Log.debug("Downloading #{object_name} from S3 bucket #{bucket_name}")
+          Chef::Log.warn("Downloading #{object_name} from S3 bucket #{bucket_name}")
           ::File.open(destination_file, 'wb') do |file|
             object.read do |chunk|
               file.write(chunk)
             end
-            Chef::Log.debug("File #{destination_file} is #{file.size} bytes on disk")
+            Chef::Log.warn("File #{destination_file} is #{file.size} bytes on disk")
           end
         rescue URI::InvalidURIError
           Chef::Log.warn("Expected an S3 URL but found #{source_file}")
           raise
+        end
+      end
+
+      # Fetches the etag of an object from S3
+      #
+      # @param  node [Chef::Node] the node
+      # @param  source_file [String] a s3 url that represents the artifact in the form: s3://<endpoint>/<bucket>/<object-path>
+      #
+      # @return [String] Etag of an S3 Object
+      def get_s3_object_etag(node, source_file)
+        configure_aws(node, source_file)
+        _, bucket_name, object_name = parse_s3_url(source_file)
+        s3_client = AWS::S3.new()
+        bucket = s3_client.buckets[bucket_name]
+        raise S3BucketNotFoundError.new(bucket_name) unless bucket.exists?
+
+        object = bucket.objects[object_name]
+        raise S3ArtifactNotFoundError.new(bucket_name, object_name) unless object.exists?
+
+        object.etag.gsub('"', '')
+      end
+
+      def configure_aws(node, source_file)
+        require 'aws-sdk'
+        config = data_bag_config_for(node.chef_environment, DATA_BAG_AWS)
+        s3_endpoint, _, _ = parse_s3_url(source_file)
+
+        if config.empty?
+          AWS.config(:s3 => { :endpoint => s3_endpoint })
+        else
+          AWS.config(:access_key_id => config['access_key_id'],
+                     :secret_access_key => config['secret_access_key'],
+                     :s3 => { :endpoint => s3_endpoint })
         end
       end
 

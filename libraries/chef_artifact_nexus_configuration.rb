@@ -11,7 +11,7 @@ class Chef
 
           config = Chef::Artifact.data_bag_config_for(environment, Chef::Artifact::DATA_BAG_NEXUS)
           if config.nil? || config.empty?
-            Chef::Log.debug "No Data Bag found for NexusConfiguration."
+            Chef::Log.warn "No Data Bag found for NexusConfiguration."
             nil
           else
             new(config['url'], config['repository'], config['username'], config['password'], config['ssl_verify'])
