@@ -484,13 +484,13 @@ private
   def symlink_it_up!
     recipe_eval do
       new_resource.symlinks.each do |key, value|
-        Chef::Log.info "artifact_deploy[symlink_it_up!] Creating and linking #{new_resource.shared_path}/#{key} to #{release_path}/#{value}"
-        directory "#{new_resource.shared_path}/#{key}" do
-          owner new_resource.owner
-          group new_resource.group
-          mode '0755'
-          #recursive true   # this messes up the perms of every file in shared_path
-        end
+        Chef::Log.info "artifact_deploy[symlink_it_up!] Linking #{new_resource.shared_path}/#{key} to #{release_path}/#{value}"
+        #directory "#{new_resource.shared_path}/#{key}" do
+        #  owner new_resource.owner
+        #  group new_resource.group
+        #  mode '0755'
+        #  recursive true   # this messes up the perms of every file in shared_path
+        #end
 
         link "#{release_path}/#{value}" do
           to "#{new_resource.shared_path}/#{key}"
