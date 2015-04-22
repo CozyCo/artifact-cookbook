@@ -489,7 +489,7 @@ private
           owner new_resource.owner
           group new_resource.group
           mode '0755'
-          recursive true
+          #recursive true   # this messes up the perms of every file in shared_path
         end
 
         link "#{release_path}/#{value}" do
