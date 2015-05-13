@@ -1,5 +1,7 @@
 # Artifact cookbook
 
+[![Join the chat at https://gitter.im/CozyCo/artifact-cookbook](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CozyCo/artifact-cookbook?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Provides your cookbooks with the Artifact Deploy LWRP
 
 # Requirements
