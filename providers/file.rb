@@ -119,6 +119,7 @@ def remote_file_resource
     group new_resource.group
     backup false
     action :nothing
+    retries 2
   end
 end
 
