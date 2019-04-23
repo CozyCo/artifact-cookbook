@@ -268,7 +268,7 @@ class Chef
       end
       
       
-      def action_deploy do
+      def action_deploy
         delete_current_if_forcing!
         setup_deploy_directories!
         setup_shared_directories!
@@ -330,7 +330,7 @@ class Chef
         new_resource.updated_by_last_action(true)
       end
 
-      def action_pre_seed do
+      def action_pre_seed
         setup_deploy_directories!
         retrieve_artifact!
       end
