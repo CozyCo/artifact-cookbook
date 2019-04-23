@@ -58,7 +58,7 @@ class Chef
       property :remove_top_level_directory, [ TrueClass, FalseClass ], :default => false
       property :skip_manifest_check, [ TrueClass, FalseClass ], :default => false
       property :remove_on_force, [ TrueClass, FalseClass ], :default => false
-      property :nexus_configuration, Chef::Artifact::NexusConfiguration, :default => Chef::Artifact::NexusConfiguration.from_data_bag
+      property :nexus_configuration, [Chef::Artifact::NexusConfiguration, nil], :default => Chef::Artifact::NexusConfiguration.from_data_bag
 
       def initialize(*args)
         super
