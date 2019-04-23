@@ -112,73 +112,7 @@ class Chef
         @current_resource
       end
 
-      action :deploy do
-        delete_current_if_forcing!
-        setup_deploy_directories!
-        setup_shared_directories!
-
-        @deploy = manifest_differences?
-
-        retrieve_artifact!
-
-        run_proc :before_deploy
-
-        if deploy?
-          run_proc :before_extract
-          if new_resource.is_tarball
-            extract_artifact!
-          else
-            copy_artifact
-          end
-          run_proc :after_extract
-
-          run_proc :before_symlink
-          symlink_it_up!
-          run_proc :after_symlink
-        end
-
-        run_proc :configure
-
-        if deploy? && new_resource.should_migrate
-          run_proc :before_migrate
-          run_proc :migrate
-          run_proc :after_migrate
-        end
-
-        if deploy? || manifest_differences? || current_symlink_changing?
-          run_proc :restart
-        end
-
-        recipe_eval do
-          if Chef::Artifact.windows?
-            # Needed until CHEF-3960 is fixed.
-            symlink_changing = current_symlink_changing?
-            execute "delete the symlink at #{new_resource.current_path}" do
-              command "rmdir #{new_resource.current_path}"
-              only_if {Chef::Artifact.symlink?(new_resource.current_path) && symlink_changing}
-            end
-          end
-
-          link new_resource.current_path do
-            to release_path
-            owner new_resource.owner
-            group new_resource.group
-          end
-        end
-
-        run_proc :after_deploy
-
-        recipe_eval { write_manifest } unless skip_manifest_check?
-        delete_previous_versions!
-
-        new_resource.updated_by_last_action(true)
-      end
-
-      action :pre_seed do
-        setup_deploy_directories!
-        retrieve_artifact!
-      end
-
+      action :d
       # Extracts the artifact defined in the resource call. Handles
       # a variety of 'tar' based files (tar.gz, tgz, tar, tar.bz2, tbz)
       # and a few 'zip' based files (zip, war, jar).
