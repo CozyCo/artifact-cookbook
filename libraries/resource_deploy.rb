@@ -26,7 +26,7 @@ class Chef
 
       require 'uri'
 
-      actions :deploy, :pre_seed
+      allowed_actions :deploy, :pre_seed
       default_action :deploy
 
       attribute :artifact_name, :kind_of      => String, :required => true, :name_attribute => true
