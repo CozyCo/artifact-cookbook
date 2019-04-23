@@ -74,7 +74,7 @@ def shared_path
 end
 
 
-eploy do
+action :deploy do
   delete_current_if_forcing!
   setup_deploy_directories!
   setup_shared_directories!

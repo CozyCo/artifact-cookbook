@@ -112,7 +112,6 @@ class Chef
         @current_resource
       end
 
-      action :d
       # Extracts the artifact defined in the resource call. Handles
       # a variety of 'tar' based files (tar.gz, tgz, tar, tar.bz2, tbz)
       # and a few 'zip' based files (zip, war, jar).
