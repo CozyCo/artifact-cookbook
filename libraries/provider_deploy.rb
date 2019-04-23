@@ -24,9 +24,8 @@ require 'pathname'
 require 'yaml'
 
 class Chef
-  class Resource
-    class ArtifactDeploy
-      provides :artifact_deploy
+  class Provider
+    class ArtifactDeploy < Chef::Provider
       attr_reader :release_path
       attr_reader :current_path
       attr_reader :shared_path
