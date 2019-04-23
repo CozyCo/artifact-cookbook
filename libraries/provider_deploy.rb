@@ -26,6 +26,7 @@ require 'yaml'
 class Chef
   class Resource
     class ArtifactDeploy
+      provides :artifact_deploy
       attr_reader :release_path
       attr_reader :current_path
       attr_reader :shared_path
