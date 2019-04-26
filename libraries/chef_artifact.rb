@@ -93,7 +93,7 @@ class Chef
           
           uri = URI(source_file)
 
-          object = get_s3_object(uri.hostname, uri.path.delete_prefix('/')))
+          object = get_s3_object(uri.hostname, uri.path.delete_prefix('/'))
 
           Chef::Log.debug("Downloading #{object_name} from S3 bucket #{bucket_name}")
           ::File.open(destination_file, 'wb') do |file|
@@ -116,7 +116,7 @@ class Chef
       # @param  bucket_name [String] Name of the S3 bucket
       # @param  object_name [String] Name of the S3 object
       #
-      # @return [Aws::S3::Types::GetObjectOutput] An S3 Object
+      # @return [Aws::S3::Types::GetObjectOutpu] An S3 Object
       def get_s3_object(bucket_name, object_name)
         s3_client = Aws::S3::Client.new
         
