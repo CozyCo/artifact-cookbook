@@ -93,7 +93,9 @@ class Chef
           
           uri = URI(source_file)
 
-          object = get_s3_object(uri.hostname, uri.path.delete_prefix('/'))
+          object_name = uri.path.delete_prefix('/')
+          bucket_name = uri.hostname
+          object = get_s3_object(bucket_name, object_name)
 
           Chef::Log.debug("Downloading #{object_name} from S3 bucket #{bucket_name}")
           ::File.open(destination_file, 'wb') do |file|
@@ -118,14 +120,8 @@ class Chef
       #
       # @return [Aws::S3::Types::GetObjectOutpu] An S3 Object
       def get_s3_object(bucket_name, object_name)
-        s3_client = Aws::S3::Client.new
-        
-        begin
-          s3_client.head_bucket(bucket: bucket_name)
-        rescue Aws::S3::Errors::NotFound
-          raise S3BucketNotFoundError.new(bucket_name)
-        end
-        
+        s3_client = Aws::S3::Client.new region: 'us-east-1'
+
         begin
           s3_client.get_object(bucket: bucket_name, key: object_name)
         rescue Aws::S3::Errors::NoSuchKey
