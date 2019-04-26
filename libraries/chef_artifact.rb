@@ -121,7 +121,7 @@ class Chef
         s3_client = Aws::S3::Client.new
         
         begin
-          s3_client.head_buckte(bucket: bucket_name)
+          s3_client.head_bucket(bucket: bucket_name)
         rescue Aws::S3::Errors::NotFound
           raise S3BucketNotFoundError.new(bucket_name)
         end
