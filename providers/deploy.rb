@@ -49,10 +49,6 @@ def load_current_resource
   end
 
   if Chef::Artifact.from_nexus?(@new_resource.artifact_location)
-    chef_gem "nexus_cli" do
-      version "4.0.2"
-    end
-
     @nexus_configuration_object = new_resource.nexus_configuration
     @nexus_connection = Chef::Artifact::Nexus.new(node, nexus_configuration_object)
     coordinates = [@new_resource.artifact_location, @new_resource.version].join(':')
@@ -79,10 +75,6 @@ def load_current_resource
           action :nothing
         end.run_action(:install)
       end
-    end
-
-    chef_gem "aws-sdk" do
-      version "1.29.0"
     end
 
     @artifact_version = @new_resource.version

@@ -206,7 +206,7 @@ describe Chef::Artifact do
   end
 
   describe ":get_s3_object" do
-    require 'aws-sdk'
+    require 'aws-sdk-s3'
     AWS.stub!
     subject { get_s3_object }
     let(:mock_s3_client) { mock('mock_s3_client') }
@@ -258,7 +258,7 @@ describe Chef::Artifact do
 
 
   describe ":retrieve_from_s3" do
-    require 'aws-sdk'
+    require 'aws-sdk-s3'
     AWS.stub!
     subject { retrieve_from_s3 }
     let(:mock_s3_client) { mock('mock_s3_client') }
