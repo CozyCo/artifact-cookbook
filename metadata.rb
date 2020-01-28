@@ -13,7 +13,6 @@ supports "fedora"
 supports "ubuntu"
 
 gem 'aws-sdk-s3'
-gem 'nexus_cli'
-#supports "windows", ">= 6.0"
 
-#depends "windows"
+# Moved this dependency into chef for better version control
+# gem 'nexus_cli'
