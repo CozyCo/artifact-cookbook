@@ -36,9 +36,6 @@ attr_reader :artifact_version
 attr_reader :nexus_configuration_object
 attr_reader :nexus_connection
 
-puts artifact_location
-puts 'YYYYY'
-
 include Chef::Artifact::Helpers
 
 def load_current_resource
