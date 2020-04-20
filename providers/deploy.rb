@@ -562,8 +562,11 @@ private
   #
   # @return [void]
   def retrieve_from_http
+    puts 'HHHHH'
+    puts cached_tar_path
     artifact_file cached_tar_path do
       location new_resource.artifact_location
+      puts location
       after_download new_resource.after_download
       owner new_resource.owner
       group new_resource.group
