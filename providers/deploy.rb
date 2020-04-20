@@ -102,6 +102,11 @@ def load_current_resource
 end
 
 action :deploy do
+  puts 'YYYYYYYYYY'
+  puts artifact_location
+  puts artifact_version
+  puts release_path
+  puts 'YYYYYYYYYY'
   delete_current_if_forcing!
   setup_deploy_directories!
   setup_shared_directories!
