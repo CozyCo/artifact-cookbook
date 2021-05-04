@@ -6,6 +6,7 @@ description      "Provides your cookbooks with the Artifact Deploy LWRP"
 version          "14.0.3"
 
 chef_version '>= 14.0'
+depends ''seven_zip', '= 3.2.0'
 
 supports "centos"
 supports "redhat"
